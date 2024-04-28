@@ -1,4 +1,6 @@
 import json
+import numpy as np
+from PIL import Image
 
 def fread(path):
     data = None
@@ -22,3 +24,6 @@ def fwritebytes(data, path):
 
 def jparse(data):
     return json.loads(data)
+
+def bencode(data):
+    return "".join("{0:08b}".format(ord(x)) for x in data)

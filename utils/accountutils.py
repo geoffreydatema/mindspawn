@@ -49,3 +49,14 @@ def destepcrypt(data, key):
 
     return decrypted_data
 
+def writeCyphermap(data, path):
+    # zeros = np.zeros((1024, 512, 3), dtype=np.uint8)
+    raw_data = data
+    
+    while len(raw_data) > 0:
+        print(raw_data[:8])
+        #!* iterate through bits and write to pixels
+        raw_data = raw_data[8:]
+
+    # img = Image.fromarray(data)
+    # img.save(path)
