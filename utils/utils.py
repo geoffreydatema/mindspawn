@@ -1,6 +1,4 @@
 import json
-import numpy as np
-from PIL import Image
 
 def fread(path):
     data = None

@@ -1,4 +1,6 @@
 import base64
+import numpy as np
+from PIL import Image
 
 def minihash(data):
     if len(data) < 8:
@@ -50,13 +52,24 @@ def destepcrypt(data, key):
     return decrypted_data
 
 def writeCyphermap(data, path):
-    # zeros = np.zeros((1024, 512, 3), dtype=np.uint8)
+    pixel_data = np.zeros((1024, 512, 3), dtype=np.uint8)
     raw_data = data
-    
-    while len(raw_data) > 0:
-        print(raw_data[:8])
-        #!* iterate through bits and write to pixels
-        raw_data = raw_data[8:]
+    print(raw_data)
+    print(len(raw_data) // 8)
 
-    # img = Image.fromarray(data)
-    # img.save(path)
+    row_count = 1024
+    # image width / 8
+    column_offset_count = 64
+    while len(raw_data) > 0:
+        for r in range(row_count):
+            for o in range(column_offset_count):
+                if len(raw_data) > 0:
+                    for c in range(8):
+                        if raw_data[c] == "1":
+                            pixel_data[r, (o * 8) + c] = [255, 255, 255]
+                    raw_data = raw_data[8:]
+                else:
+                    break
+    
+    img = Image.fromarray(pixel_data)
+    img.save(path)
