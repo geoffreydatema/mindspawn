@@ -1,11 +1,23 @@
+import base64
+
 def fread(path):
     data = None
     with open(path, "r") as file:
         data = file.read()
     return data
 
+def freadbytes(path):
+    data = None
+    with open(path, "rb") as file:
+        data = file.read()
+    return data
+
 def fwrite(data, path):
     with open(path, "w") as file:
+        file.write(data)
+
+def fwritebytes(data, path):
+    with open(path, "wb") as file:
         file.write(data)
 
 def singleOffsetEncrypt(data, key):
@@ -47,10 +59,10 @@ def stepcrypt(data, key):
             else:
                 break
 
-    return encrypted_data
+    return base64.b64encode(encrypted_data.encode("utf-8"))
 
 def destepcrypt(data, key):
-    encrypted_data = data
+    encrypted_data = base64.b64decode(data).decode("utf-8")
     decrypted_data = ""
     while len(encrypted_data) > 0:
         for k in key:
@@ -76,13 +88,14 @@ def main():
     data = fread(r"C:\Working\mindspawn\data\TestAccount.txt")
 
     encrypted_data = stepcrypt(data, hashword)
-    fwrite(encrypted_data, r"C:\Working\mindspawn\data\cyphertext.txt")
-    decrypted_data = destepcrypt(encrypted_data, hashword)
+    fwritebytes(encrypted_data, r"C:\Working\mindspawn\data\cyphertext.txt")
+    decrypted_data = destepcrypt(freadbytes(r"C:\Working\mindspawn\data\cyphertext.txt"), hashword)
 
     print(encrypted_data)
     print(decrypted_data)
 
     # !* parse the decrypted data as json
+
     
 
 if __name__ == '__main__':
