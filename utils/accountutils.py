@@ -3,6 +3,13 @@ import base64
 import numpy as np
 from utils.utils import *
 
+def initAccountFile(username):
+    account = {
+        "username": username,
+        "level": "1"
+    }
+    return account
+
 def minihash(data):
     if len(data) < 8:
         while len(data) < 8:
@@ -52,7 +59,7 @@ def destepcrypt(data, key):
 
     return decrypted_data
 
-def writeCyphermap(data, path):
+def writeCyphermap(data, username, path):
     pixel_data = np.zeros((1024, 512, 3), dtype=np.uint8)
     raw_data = data
     block_count = len(raw_data) // 8
@@ -85,8 +92,8 @@ def writeCyphermap(data, path):
                                 else:
                                     break
             break
-    
-    iwrite(pixel_data, path)
+
+    iwrite(pixel_data, rf"{path}\{username}.png")
 
 def readCyphermap(path):
     raw_data = iread(path)
@@ -108,8 +115,25 @@ def readCyphermap(path):
                 cell_pixel_count += 1
         index += 1
 
+    pixel_data = bitmapListTo2DArray(raw_data, 512)
+
     cell_size = cell_pixel_count
+    row_col_size = (512 // cell_size) // 2  
+    block_width = 512 // row_col_size
+    block_height = block_width * 2
+    binary_characters = ""
 
-    print(f"cell size is: {cell_size}")
+    # row_col_size rows of blocks in the cyphermap
+    for rcy in range(row_col_size):
+        # row_col_size columns of blocks in the cyphermap
+        for rcx in range(row_col_size):
+                # 4 rows of cells per block
+                for by in range(4):
+                    # 2 columns of cells per block
+                    for bx in range(2):
+                        if pixel_data[(rcy * block_height) + (by * cell_size)][(rcx * block_width) + (bx * cell_size)][0] == 0:
+                            binary_characters += "0"
+                        else:
+                            binary_characters += "1"
 
-    return None
+    return binary_characters

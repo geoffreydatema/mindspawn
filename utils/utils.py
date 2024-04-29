@@ -30,8 +30,33 @@ def iwrite(data, path):
     image = Image.fromarray(data)
     image.save(path)
 
+def bitmapListTo2DArray(data, row_size):
+    result = []
+    row = []
+    column_counter = 0
+    for pixel in data:
+        row.append(pixel)
+        column_counter += 1
+        if column_counter == row_size:
+            result.append(row)
+            column_counter = 0
+            row = []
+    return result
+
 def jparse(data):
     return json.loads(data)
 
 def bencode(data):
     return "".join("{0:08b}".format(ord(x)) for x in data)
+
+def bdecode(data):
+    raw_data = data
+    index = 0
+    result = ""
+    while len(raw_data) > 0:
+        if len(raw_data) > 0:
+            result += chr(int(raw_data[:8], 2))
+            raw_data = raw_data[8:]
+        else:
+            break
+    return result

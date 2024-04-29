@@ -3,25 +3,25 @@ import utils.accountutils as accountutils
 import base64
 
 def main():
+
+    # account = accountutils.initAccountFile(username="oystertheory")
+    # print(str(account))
     # password = "very long password"
     # hashword = accountutils.minihash(password)
+    # encrypted_data = accountutils.stepcrypt(str(account), hashword)
+    # print(encrypted_data)
+    # fwritebytes(encrypted_data, r"C:\Working\mindspawn\data\oystertheory.txt")
+    # decrypted_data = accountutils.destepcrypt(freadbytes(r"C:\Working\mindspawn\data\oystertheory.txt"), hashword)
+    # print(f"decrypted_data {decrypted_data}")
+    # loadedAccount = jparse(decrypted_data)
+    # print(loadedAccount)
 
-    # data = fread(r"C:\Working\mindspawn\data\TestAccount.txt")
+    test_data = bencode("very special secret message")
+    accountutils.writeCyphermap(test_data, "test", r"C:\Working\mindspawn\data")
 
-    # encrypted_data = accountutils.stepcrypt(data, hashword)
-    # fwritebytes(encrypted_data, r"C:\Working\mindspawn\data\cyphertext.txt")
-    # decrypted_data = accountutils.destepcrypt(freadbytes(r"C:\Working\mindspawn\data\cyphertext.txt"), hashword)
-
-    # account = jparse(decrypted_data)
-    # print(account)
-
-    # test_data = bencode("@very special secret message to be encoded into binary")
-    # accountutils.writeCyphermap(test_data, r"C:\Working\mindspawn\data\image.png")
-
-    data = accountutils.readCyphermap(r"C:\Working\mindspawn\data\image.png")
-
-    #!* write readCyphermap()
-    #!* write account init function
+    data = accountutils.readCyphermap(r"C:\Working\mindspawn\data\test.png")
+    decoded_data = bdecode(data)
+    print(decoded_data)
 
 if __name__ == '__main__':
     main()
