@@ -1,7 +1,7 @@
 import math
 import base64
 import numpy as np
-from PIL import Image
+from utils.utils import *
 
 def minihash(data):
     if len(data) < 8:
@@ -52,41 +52,10 @@ def destepcrypt(data, key):
 
     return decrypted_data
 
-def writeCyphermapByRows(data, path):
-    pixel_data = np.zeros((1024, 512, 3), dtype=np.uint8)
-    raw_data = data
-    print(raw_data)
-    print(len(raw_data) // 8)
-
-    row_count = 1024
-    # image width / 8
-    column_offset_count = 64
-    while len(raw_data) > 0:
-        for r in range(row_count):
-            for o in range(column_offset_count):
-                if len(raw_data) > 0:
-                    for c in range(8):
-                        if raw_data[c] == "1":
-                            pixel_data[r, (o * 8) + c] = [255, 255, 255]
-                    raw_data = raw_data[8:]
-                else:
-                    break
-    
-    img = Image.fromarray(pixel_data)
-    img.save(path)
-
 def writeCyphermap(data, path):
     pixel_data = np.zeros((1024, 512, 3), dtype=np.uint8)
     raw_data = data
-
-    print(raw_data)
-    print("---------------")
-    print(f"number of bytes: {len(raw_data) // 8}")
-
     block_count = len(raw_data) // 8
-    print(f"block_count // 2: {block_count // 2}")
-
-    print(f"first character of data string is {raw_data[0]} {type(raw_data[0])}")
 
     for x in range(9):
         row_col_size = 2 ** x
@@ -96,10 +65,6 @@ def writeCyphermap(data, path):
             block_width = 512 // row_col_size
             block_height = block_width * 2
             cell_size = block_width // 2
-            print("----------------------")
-            print(f"blocks rows and columns: {row_col_size} x {row_col_size}")
-            print(f"total number of blocks (bytes): {row_col_size * row_col_size}")
-            print(f"cell size: {cell_size} x {cell_size}")
 
             # row_col_size rows of blocks in the cyphermap
             for rcy in range(row_col_size):
@@ -121,5 +86,30 @@ def writeCyphermap(data, path):
                                     break
             break
     
-    img = Image.fromarray(pixel_data)
-    img.save(path)
+    iwrite(pixel_data, path)
+
+def readCyphermap(path):
+    raw_data = iread(path)
+
+    # determine cell (and therefore block) size by reading pixels in rows until we get a pattern of black -> white or white -> black
+    solved = False
+    colours = []
+    cell_pixel_count = 0
+    index = 0
+
+    while solved == False:
+        current_pixel = raw_data[index][0]
+        colours.append(current_pixel)
+
+        if len(colours) > 0:
+            if current_pixel != colours[index - 1]:
+                solved = True
+            else:
+                cell_pixel_count += 1
+        index += 1
+
+    cell_size = cell_pixel_count
+
+    print(f"cell size is: {cell_size}")
+
+    return None

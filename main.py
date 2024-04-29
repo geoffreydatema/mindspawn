@@ -1,5 +1,6 @@
 from utils.utils import *
 import utils.accountutils as accountutils
+import base64
 
 def main():
     # password = "very long password"
@@ -14,10 +15,11 @@ def main():
     # account = jparse(decrypted_data)
     # print(account)
 
-    test_data = bencode("very special secret message to be encoded into binary")
-    accountutils.writeCyphermap(test_data, r"C:\Working\mindspawn\data\image.png")
+    # test_data = bencode("@very special secret message to be encoded into binary")
+    # accountutils.writeCyphermap(test_data, r"C:\Working\mindspawn\data\image.png")
 
-    #!* write variable block size pixel encoding
+    data = accountutils.readCyphermap(r"C:\Working\mindspawn\data\image.png")
+
     #!* write readCyphermap()
     #!* write account init function
 

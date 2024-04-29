@@ -1,4 +1,5 @@
 import json
+from PIL import Image
 
 def fread(path):
     data = None
@@ -19,6 +20,15 @@ def fwrite(data, path):
 def fwritebytes(data, path):
     with open(path, "wb") as file:
         file.write(data)
+
+def iread(path):
+    image = Image.open(path)
+    pixel_data = list(image.getdata())
+    return pixel_data
+
+def iwrite(data, path):
+    image = Image.fromarray(data)
+    image.save(path)
 
 def jparse(data):
     return json.loads(data)
