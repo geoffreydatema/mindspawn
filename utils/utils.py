@@ -43,6 +43,9 @@ def bitmapListTo2DArray(data, row_size):
             row = []
     return result
 
+def jdump(data):
+    return json.dumps(data)
+
 def jparse(data):
     return json.loads(data)
 

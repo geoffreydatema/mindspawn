@@ -10,6 +10,12 @@ def initAccountFile(username):
     }
     return account
 
+def save(data, key, path):
+    hashword = minihash(key)
+    encrypted_data = stepcrypt(jdump(data), hashword)
+    fwritebytes(encrypted_data, rf"{path}\{data["username"]}.txt")
+    writeCyphermap(bencode(str(encrypted_data)[2:-1]), data["username"], r"C:\Working\mindspawn\data")
+
 def minihash(data):
     if len(data) < 8:
         while len(data) < 8:
