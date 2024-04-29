@@ -14,8 +14,12 @@ def main():
     # account = jparse(decrypted_data)
     # print(account)
 
-    test_data = bencode("very special secret message to be encoded into binary very special secret message to be encoded into binary very special secret message to be encoded into binary very special secret message to be encoded into binary")
+    test_data = bencode("very special secret message to be encoded into binary")
     accountutils.writeCyphermap(test_data, r"C:\Working\mindspawn\data\image.png")
+
+    #!* write variable block size pixel encoding
+    #!* write readCyphermap()
+    #!* write account init function
 
 if __name__ == '__main__':
     main()
