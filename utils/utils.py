@@ -47,7 +47,12 @@ def jdump(data):
     return json.dumps(data)
 
 def jparse(data):
-    return json.loads(data)
+    parsed_data = {}
+    try:
+        parsed_data = json.loads(data)
+    except:
+        print("could not read decrypted data")
+    return parsed_data
 
 def bencode(data):
     return "".join("{0:08b}".format(ord(x)) for x in data)
