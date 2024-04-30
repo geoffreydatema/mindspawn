@@ -4,20 +4,17 @@ import base64
 
 def main():
 
-    account = accountutils.initAccountFile(username="oystertheory")
+    # account = accountutils.initAccountFile(username="oystertheory")
 
     password = "very long password"
     
-    accountutils.save(account, password, r"C:\Working\mindspawn\data")
+    # accountutils.save(account, password, r"C:\Working\mindspawn\data")
 
-    #!* make load functions for both text and cyphermap
+    account = accountutils.loadSaveFile(r"C:\Working\mindspawn\data\oystertheory.txt", password)
+    print(f"account read from save file: {account}")
 
-    # decrypted_data = accountutils.destepcrypt(freadbytes(r"C:\Working\mindspawn\data\oystertheory.txt"), hashword)
-    # loadedAccount = jparse(decrypted_data)
-
-    # data = accountutils.readCyphermap(r"C:\Working\mindspawn\data\test.png")
-    # decoded_data = bdecode(data)
-    # print(decoded_data)
+    account2 = accountutils.loadCyphermap(r"C:\Working\mindspawn\data\oystertheory.png", password)
+    print(f"account read from cyphermap: {account2}")
 
 if __name__ == '__main__':
     main()

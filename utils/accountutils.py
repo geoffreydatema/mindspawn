@@ -16,6 +16,16 @@ def save(data, key, path):
     fwritebytes(encrypted_data, rf"{path}\{data["username"]}.txt")
     writeCyphermap(bencode(str(encrypted_data)[2:-1]), data["username"], r"C:\Working\mindspawn\data")
 
+def loadSaveFile(path, key):
+    hashword = minihash(key)
+    decrypted_data = jparse(destepcrypt(freadbytes(path), hashword))
+    return decrypted_data
+
+def loadCyphermap(path, key):
+    hashword = minihash(key)
+    decrypted_data = jparse(destepcrypt(bdecode(readCyphermap(path)), hashword))
+    return decrypted_data
+
 def minihash(data):
     if len(data) < 8:
         while len(data) < 8:
