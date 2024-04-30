@@ -88,7 +88,7 @@ def destepcrypt(data, key):
 
     return decrypted_data
 
-def writeCyphermap(data, username, path):
+def writeCyphermap(data, filename, path):
     pixel_data = np.zeros((1024, 512, 3), dtype=np.uint8)
     raw_data = data
     block_count = len(raw_data) // 8
@@ -122,7 +122,7 @@ def writeCyphermap(data, username, path):
                                     break
             break
 
-    iwrite(pixel_data, rf"{path}\{username}.png")
+    iwrite(pixel_data, rf"{path}\{filename}.png")
 
 def readCyphermap(path):
     raw_data = iread(path)

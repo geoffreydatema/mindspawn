@@ -47,9 +47,10 @@ def jdump(data):
     return json.dumps(data)
 
 def jparse(data):
+    clean_data = data.replace("\x00", "")
     parsed_data = {}
     try:
-        parsed_data = json.loads(data)
+        parsed_data = json.loads(clean_data)
     except:
         print("could not read decrypted data")
     return parsed_data
