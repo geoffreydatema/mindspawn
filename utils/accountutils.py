@@ -27,13 +27,28 @@ def loadCyphermap(path, key):
     return decrypted_data
 
 def minihash(data):
-    if len(data) < 8:
-        while len(data) < 8:
-            data += "0"
-    number = ""
-    for c in data:
-        number += str(ord(c))
-    return str(int(number))
+    sd = data[:32]
+    a = ""
+    for x in sd:
+        u = ord(x) - len(data)
+        if u < 0:
+            u = 0
+        a += str(u)
+    if len(a) < 8:
+        while len(a) < 8:
+            a += "0"
+    b = 1
+    for x in a:
+        if len(str(b)) < 8:
+            b *= ord(x)
+        else:
+            break
+    c = str(b)
+    if len(c) < 16:
+        while len(c) < 16:
+            c += c
+    d = c[::-1]
+    return d[:16]
 
 def stepcrypt(data, key):
     raw_data = data
@@ -45,7 +60,6 @@ def stepcrypt(data, key):
                 offset = int(k)
                 offset_character = character - offset
                 if offset_character < 0:
-                    print("hit ASCII limit during stepcrypt!")
                     encrypted_data += "0"
                 else:
                     encrypted_data += chr(offset_character)
@@ -65,7 +79,6 @@ def destepcrypt(data, key):
                 offset = int(k)
                 offset_character = character + offset
                 if offset_character > 127:
-                    print("hit ASCII limit during destepcrypt!")
                     decrypted_data += "0"
                 else:
                     decrypted_data += chr(offset_character)
