@@ -1,16 +1,24 @@
 import PyQt5.QtWidgets as qt
+from data.gamevars import gamevars
 
 class MainWindow(qt.QWidget):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("Mindspawn 0.0.1")
+        self.setWindowTitle(f"Mindspawn {gamevars["version"]}")
+        self.setFixedSize(1280, 720)
         self.setLayout(qt.QVBoxLayout())
         self.setup()
+        self.setStyles()
         self.show()
 
     def setup(self):
-        container = qt.QWidget()
-        container.setLayout(qt.QGridLayout())
+        self.container = qt.QWidget()
+        self.container.setLayout(qt.QGridLayout())
         message = qt.QLabel("hello world")
-        container.layout().addWidget(message)
-        self.layout().addWidget(container)
+        
+        self.container.layout().addWidget(message)
+        self.layout().addWidget(self.container)
+
+    def setStyles(self):
+        # top level defaults
+        self.setStyleSheet("background-color: black; color: white")

@@ -1,3 +1,4 @@
+import sys
 from utils.utils import *
 import utils.accountutils as accountutils
 import PyQt5.QtWidgets as qt
@@ -9,7 +10,7 @@ def main():
 
     # print(account)
 
-    app = qt.QApplication([])
+    app = qt.QApplication(sys.argv + ["-platform", "windows:darkmode=1"])
     window = MainWindow()
     app.exec_()
 
